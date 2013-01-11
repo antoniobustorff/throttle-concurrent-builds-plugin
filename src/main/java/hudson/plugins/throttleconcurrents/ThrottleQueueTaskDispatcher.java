@@ -2,7 +2,6 @@ package hudson.plugins.throttleconcurrents;
 
 import hudson.Extension;
 import hudson.matrix.MatrixConfiguration;
-import hudson.matrix.MatrixProject;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Computer;
@@ -10,6 +9,7 @@ import hudson.model.Executor;
 import hudson.model.Hudson;
 import hudson.model.Node;
 import hudson.model.Queue;
+import hudson.model.Queue.FlyweightTask;
 import hudson.model.Queue.Task;
 import hudson.model.queue.CauseOfBlockage;
 import hudson.model.queue.QueueTaskDispatcher;
@@ -174,7 +174,7 @@ public class ThrottleQueueTaskDispatcher extends QueueTaskDispatcher {
             for (Executor e : computer.getExecutors()) {
                 runCount += buildsOnExecutor(task, e);
             }
-            if (task instanceof MatrixProject) {
+            if (task instanceof FlyweightTask) {
                 for (Executor e : computer.getOneOffExecutors()) {
                     runCount += buildsOnExecutor(task, e);
                 }
